@@ -1,340 +1,352 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Portfolio</title>
-    <style>
-        /* --- RESET & VARIABLES --- */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        :root {
-            --bg-color: #0f0f15;
-            --card-bg: #161622;
-            --accent-color: #ff9f43; /* Warm orange/yellow similar to the image */
-            --text-main: #ffffff;
-            --text-muted: #a0a0b0;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kishan · Backend Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+        --bg:      #0d0d12;
+        --bg-2:    #14141c;
+        --card:    #16161f;
+        --line:    #24242f;
+        --amber:   #ff9f43;
+        --amber-2: #ffb86c;
+        --text:    #f4f4f6;
+        --muted:   #8b8b9a;
+        --mono: 'JetBrains Mono', monospace;
+        --sans: 'Space Grotesk', sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--sans);
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
+    }
+    ::selection { background: var(--amber); color: #0d0d12; }
+    a { color: inherit; text-decoration: none; }
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            line-height: 1.6;
-            scroll-behavior: smooth;
-        }
+    /* --- NAV --- */
+    header {
+        position: fixed; top: 0; width: 100%; z-index: 1000;
+        background: rgba(13,13,18,0.72);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid transparent;
+        transition: border-color .3s;
+    }
+    header.scrolled { border-bottom-color: var(--line); }
+    nav {
+        max-width: 1080px; margin: 0 auto;
+        padding: 1.1rem 2rem;
+        display: flex; justify-content: space-between; align-items: center;
+    }
+    .logo { font-family: var(--mono); font-weight: 600; font-size: 1.05rem; letter-spacing: -.02em; }
+    .logo b { color: var(--amber); }
+    .nav-links { display: flex; gap: 2.2rem; list-style: none; font-family: var(--mono); font-size: .82rem; }
+    .nav-links a { color: var(--muted); transition: color .25s; }
+    .nav-links a::before { content: '// '; color: var(--line); }
+    .nav-links a:hover { color: var(--amber); }
+    .nav-links a:hover::before { color: var(--amber); }
 
-        /* --- NAVIGATION --- */
-        header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background-color: rgba(15, 15, 21, 0.95);
-            backdrop-filter: blur(5px);
-            z-index: 1000;
-            border-bottom: 1px solid #222;
-        }
-        nav {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 1.2rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--text-main);
-            text-decoration: none;
-        }
-        .logo span {
-            color: var(--accent-color);
-        }
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-        .nav-links a {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-        .nav-links a:hover {
-            color: var(--accent-color);
-        }
+    /* --- HERO --- */
+    .hero {
+        min-height: 100vh; display: flex; flex-direction: column;
+        justify-content: center; max-width: 1080px; margin: 0 auto;
+        padding: 6rem 2rem 3rem; position: relative;
+    }
+    .hero-grid {
+        position: absolute; inset: 0;
+        background-image:
+            linear-gradient(var(--line) 1px, transparent 1px),
+            linear-gradient(90deg, var(--line) 1px, transparent 1px);
+        background-size: 46px 46px;
+        mask-image: radial-gradient(circle at 30% 40%, #000 0%, transparent 65%);
+        opacity: .35; pointer-events: none;
+    }
+    .eyebrow {
+        font-family: var(--mono); font-size: .8rem; color: var(--amber);
+        letter-spacing: .04em; margin-bottom: 1.4rem;
+        display: inline-flex; align-items: center; gap: .6rem;
+    }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--amber);
+        box-shadow: 0 0 12px var(--amber); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.35} }
+    .hero h1 {
+        font-size: clamp(2.6rem, 7vw, 5rem); font-weight: 700;
+        line-height: 1.02; letter-spacing: -.03em; margin-bottom: 1.5rem;
+        position: relative; z-index: 2;
+    }
+    .hero h1 span { color: var(--amber); }
+    .hero-sub {
+        font-size: clamp(1.05rem, 2.2vw, 1.35rem); color: var(--muted);
+        max-width: 620px; margin-bottom: 2.5rem; position: relative; z-index: 2;
+    }
+    .hero-sub b { color: var(--text); font-weight: 500; }
+    .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; position: relative; z-index: 2; }
+    .btn {
+        font-family: var(--mono); font-size: .88rem; font-weight: 500;
+        padding: .85rem 1.6rem; border-radius: 6px; transition: all .25s ease;
+        display: inline-flex; align-items: center; gap: .5rem;
+    }
+    .btn-solid { background: var(--amber); color: #0d0d12; font-weight: 600; }
+    .btn-solid:hover { background: var(--amber-2); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,159,67,.25); }
+    .btn-ghost { border: 1px solid var(--line); color: var(--text); }
+    .btn-ghost:hover { border-color: var(--amber); color: var(--amber); transform: translateY(-2px); }
 
-        /* --- HERO SECTION --- */
-        .hero {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 0 2rem;
-            background: radial-gradient(circle at center, #251b2d 0%, var(--bg-color) 70%);
-        }
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-        }
-        .hero h1 span {
-            color: var(--accent-color);
-        }
-        .hero p {
-            font-size: 1.5rem;
-            color: var(--text-muted);
-            margin-bottom: 2rem;
-            max-width: 600px;
-        }
-        .cta-btn {
-            background-color: transparent;
-            color: var(--text-main);
-            border: 2px solid var(--text-main);
-            padding: 0.8rem 2rem;
-            font-size: 1rem;
-            font-weight: 600;
-            text-decoration: none;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-        }
-        .cta-btn:hover {
-            background-color: var(--text-main);
-            color: var(--bg-color);
-            transform: translateY(-3px);
-        }
+    .hero-stats {
+        display: flex; gap: 2.8rem; margin-top: 3.5rem;
+        font-family: var(--mono); position: relative; z-index: 2; flex-wrap: wrap;
+    }
+    .stat .num { font-size: 1.7rem; font-weight: 600; color: var(--amber); }
+    .stat .lbl { font-size: .78rem; color: var(--muted); }
 
-        /* --- SECTION STYLES --- */
-        section {
-            padding: 6rem 2rem 4rem 2rem;
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-        .section-title {
-            font-size: 2.2rem;
-            margin-bottom: 3rem;
-            text-align: center;
-            position: relative;
-        }
-        .section-title::after {
-            content: '';
-            display: block;
-            width: 50px;
-            height: 4px;
-            background-color: var(--accent-color);
-            margin: 10px auto 0 auto;
-            border-radius: 2px;
-        }
+    /* --- SECTIONS --- */
+    section.block { max-width: 1080px; margin: 0 auto; padding: 5.5rem 2rem; }
+    .sec-head { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 2.8rem; }
+    .sec-idx { font-family: var(--mono); color: var(--amber); font-size: .9rem; font-weight: 600; }
+    .sec-title { font-size: clamp(1.6rem, 4vw, 2.3rem); font-weight: 700; letter-spacing: -.02em; }
+    .sec-line { flex: 1; height: 1px; background: var(--line); }
 
-        /* --- ABOUT & SKILLS --- */
-        .about-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-        }
-        @media (max-width: 768px) {
-            .about-content { grid-template-columns: 1fr; gap: 2rem; }
-            .hero h1 { font-size: 2.5rem; }
-            .nav-links { display: none; } /* Simplified for mobile */
-        }
-        .skills-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-        .skill-badge {
-            background-color: var(--card-bg);
-            border: 1px solid #333;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            color: var(--text-muted);
-        }
+    /* --- ABOUT --- */
+    .about-wrap { display: grid; grid-template-columns: 1.3fr 1fr; gap: 3.5rem; }
+    .about-wrap p { color: var(--muted); margin-bottom: 1.1rem; }
+    .about-wrap p b { color: var(--text); font-weight: 500; }
+    .terminal {
+        background: var(--bg-2); border: 1px solid var(--line); border-radius: 10px;
+        font-family: var(--mono); font-size: .82rem; overflow: hidden;
+    }
+    .term-bar { display: flex; gap: .5rem; padding: .8rem 1rem; border-bottom: 1px solid var(--line); }
+    .term-bar span { width: 11px; height: 11px; border-radius: 50%; background: #333; }
+    .term-bar span:first-child { background: #ff5f56; }
+    .term-bar span:nth-child(2) { background: #ffbd2e; }
+    .term-bar span:nth-child(3) { background: #27c93f; }
+    .term-body { padding: 1.2rem 1.3rem; line-height: 1.9; }
+    .term-body .k { color: var(--amber); }
+    .term-body .s { color: #98d982; }
+    .term-body .c { color: var(--muted); }
 
-        /* --- PROJECTS --- */
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-        .project-card {
-            background-color: var(--card-bg);
-            border: 1px solid #222;
-            border-radius: 8px;
-            overflow: hidden;
-            transition: transform 0.3s, border-color 0.3s;
-        }
-        .project-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent-color);
-        }
-        .project-img {
-            height: 180px;
-            background: linear-gradient(45deg, #1f1c2c, #928dab);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: rgba(255,255,255,0.3);
-            font-weight: bold;
-        }
-        .project-info {
-            padding: 1.5rem;
-        }
-        .project-info h3 {
-            margin-bottom: 0.5rem;
-        }
-        .project-info p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            margin-bottom: 1rem;
-        }
-        .project-link {
-            color: var(--accent-color);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
+    /* --- SKILLS --- */
+    .skill-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px,1fr)); gap: 1.2rem; }
+    .skill-card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 1.4rem; transition: border-color .25s; }
+    .skill-card:hover { border-color: var(--amber); }
+    .skill-card h4 { font-family: var(--mono); font-size: .8rem; color: var(--amber); margin-bottom: 1rem; letter-spacing: .03em; }
+    .chips { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .chip { font-size: .82rem; color: var(--muted); background: var(--bg-2); border: 1px solid var(--line); padding: .35rem .8rem; border-radius: 6px; transition: all .2s; }
+    .chip:hover { color: var(--text); border-color: var(--amber); }
 
-        /* --- CONTACT --- */
-        .contact-container {
-            text-align: center;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        .contact-container p {
-            color: var(--text-muted);
-            margin-bottom: 2rem;
-        }
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            font-size: 1.2rem;
-        }
-        .social-links a {
-            color: var(--text-main);
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        .social-links a:hover {
-            color: var(--accent-color);
-        }
+    /* --- PROJECTS --- */
+    .proj-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px,1fr)); gap: 1.5rem; }
+    .proj {
+        background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+        padding: 1.8rem; transition: transform .25s, border-color .25s; position: relative; overflow: hidden;
+    }
+    .proj::before { content:''; position:absolute; top:0; left:0; width:100%; height:2px; background:var(--amber); transform:scaleX(0); transform-origin:left; transition:transform .3s; }
+    .proj:hover { transform: translateY(-4px); border-color: var(--line); }
+    .proj:hover::before { transform: scaleX(1); }
+    .proj-tag { font-family: var(--mono); font-size: .72rem; color: var(--amber); letter-spacing: .05em; }
+    .proj h3 { font-size: 1.25rem; margin: .6rem 0 .8rem; letter-spacing: -.01em; }
+    .proj p { color: var(--muted); font-size: .92rem; margin-bottom: 1.2rem; }
+    .proj-stack { display: flex; flex-wrap: wrap; gap: .4rem; font-family: var(--mono); font-size: .72rem; }
+    .proj-stack span { color: var(--muted); background: var(--bg-2); padding: .25rem .6rem; border-radius: 4px; }
 
-        /* --- FOOTER --- */
-        footer {
-            text-align: center;
-            padding: 2rem;
-            border-top: 1px solid #222;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            margin-top: 4rem;
-        }
-    </style>
+    /* --- CONTACT --- */
+    .contact { text-align: center; max-width: 640px; margin: 0 auto; }
+    .contact h2 { font-size: clamp(2rem,5vw,3rem); font-weight: 700; letter-spacing: -.02em; margin-bottom: 1rem; }
+    .contact h2 span { color: var(--amber); }
+    .contact p { color: var(--muted); margin-bottom: 2.2rem; }
+    .socials { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; font-family: var(--mono); font-size: .9rem; }
+    .socials a { border: 1px solid var(--line); padding: .75rem 1.4rem; border-radius: 6px; color: var(--muted); transition: all .25s; }
+    .socials a:hover { color: var(--amber); border-color: var(--amber); transform: translateY(-2px); }
+
+    footer { text-align: center; padding: 2.5rem; border-top: 1px solid var(--line); color: var(--muted); font-family: var(--mono); font-size: .8rem; }
+
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.in { opacity: 1; transform: none; }
+
+    @media (max-width: 760px) {
+        .nav-links { display: none; }
+        .about-wrap { grid-template-columns: 1fr; }
+        nav { padding: 1rem 1.3rem; }
+        section.block { padding: 4rem 1.3rem; }
+        .hero { padding: 5rem 1.3rem 2rem; }
+    }
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } .reveal { opacity:1; transform:none; } }
+</style>
 </head>
 <body>
 
-    <!-- NAVIGATION -->
-    <header>
-        <nav>
-            <a href="#" class="logo">Hello <span>World!</span></a>
-            <ul class="nav-links">
-                <li><a href="#about">About</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
+<header id="hdr">
+    <nav>
+        <a href="#" class="logo">kishan<b>.dev</b></a>
+        <ul class="nav-links">
+            <li><a href="#about">about</a></li>
+            <li><a href="#skills">stack</a></li>
+            <li><a href="#work">work</a></li>
+            <li><a href="#contact">contact</a></li>
+        </ul>
+    </nav>
+</header>
 
-    <!-- HERO SECTION -->
-    <section class="hero">
-        <p>Hi, I'm</p>
-        <h1><span>Your Name Here</span></h1>
-        <p>A passionate developer building clean, responsive, and functional web experiences.</p>
-        <a href="#contact" class="cta-btn">LET'S COLLAB!</a>
-    </section>
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-grid"></div>
+    <div class="eyebrow"><span class="dot"></span>SENIOR SOFTWARE ENGINEER · TECHNICAL LEAD</div>
+    <h1>I build resilient<br><span>distributed systems.</span></h1>
+    <p class="hero-sub">Backend engineer with <b>7.5+ years</b> in Java &amp; Spring Boot, designing cloud-native, multi-tenant platforms that stay up under load — event pipelines, service meshes, and the quiet plumbing that makes it all reliable.</p>
+    <div class="hero-cta">
+        <a href="#work" class="btn btn-solid">View work →</a>
+        <a href="#contact" class="btn btn-ghost">Get in touch</a>
+    </div>
+    <div class="hero-stats">
+        <div class="stat"><div class="num">7.5+</div><div class="lbl">years shipping</div></div>
+        <div class="stat"><div class="num">6</div><div class="lbl">microservices, one platform</div></div>
+        <div class="stat"><div class="num">N-tenant</div><div class="lbl">isolated by design</div></div>
+    </div>
+</section>
 
-    <!-- ABOUT SECTION -->
-    <section id="about">
-        <h2 class="section-title">About Me</h2>
-        <div class="about-content">
-            <div>
-                <p>Hello! I am a software enthusiast who loves turning complex problems into simple, beautiful, and intuitive designs. My journey in tech started with curiosity, and now I specialize in building solid applications.</p>
-                <br>
-                <p>When I'm not coding, you can find me exploring new tools, learning new frameworks, or working on personal side projects.</p>
-            </div>
-            <div>
-                <h3>My Skills</h3>
-                <div class="skills-grid">
-                    <span class="skill-badge">HTML5</span>
-                    <span class="skill-badge">CSS3</span>
-                    <span class="skill-badge">JavaScript</span>
-                    <span class="skill-badge">Git & GitHub</span>
-                    <span class="skill-badge">Responsive Design</span>
-                    <span class="skill-badge">React (Learning)</span>
-                </div>
+<!-- ABOUT -->
+<section class="block reveal" id="about">
+    <div class="sec-head">
+        <span class="sec-idx">01</span><h2 class="sec-title">About</h2><div class="sec-line"></div>
+    </div>
+    <div class="about-wrap">
+        <div>
+            <p>I'm a backend engineer who's happiest deep in the <b>hands-on layer</b> of a system — the part where a Kafka consumer has to be idempotent, a JWT has to validate against the right realm, and a circuit breaker has to fail in exactly the right way.</p>
+            <p>Most recently I've been building a <b>multi-tenant healthcare platform</b> on AWS EKS: per-tenant databases and Keycloak realms, a KrakenD gateway doing centralized auth, and an event backbone stitched together with Kafka, Debezium CDC, and the outbox pattern.</p>
+            <p>I care about <b>correctness under concurrency</b>, clean service boundaries drawn from domain logic, and observability that actually tells you what's wrong at 2am. I lean toward deep IC work over org charts.</p>
+        </div>
+        <div class="terminal">
+            <div class="term-bar"><span></span><span></span><span></span></div>
+            <div class="term-body">
+                <div><span class="c"># whoami</span></div>
+                <div><span class="k">role</span>: <span class="s">"Senior SWE / Tech Lead"</span></div>
+                <div><span class="k">focus</span>: <span class="s">"cloud-native backend"</span></div>
+                <div><span class="k">based</span>: <span class="s">"Noida, IN"</span></div>
+                <div><span class="k">remote</span>: <span class="s">true</span></div>
+                <div><span class="k">jvm</span>: <span class="s">"tuned &amp; profiled"</span></div>
+                <div><span class="c"># status: shipping</span></div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- PROJECTS SECTION -->
-    <section id="projects">
-        <h2 class="section-title">My Projects</h2>
-        <div class="projects-grid">
-            <!-- Project 1 -->
-            <div class="project-card">
-                <div class="project-img">Project One</div>
-                <div class="project-info">
-                    <h3>Project Title</h3>
-                    <p>A brief description of your awesome project. What technologies did you use? What problem did it solve?</p>
-                    <a href="#" class="project-link" target="_blank">View Project &rarr;</a>
-                </div>
-            </div>
-            <!-- Project 2 -->
-            <div class="project-card">
-                <div class="project-img">Project Two</div>
-                <div class="project-info">
-                    <h3>Project Title</h3>
-                    <p>A brief description of your awesome project. What technologies did you use? What problem did it solve?</p>
-                    <a href="#" class="project-link" target="_blank">View Project &rarr;</a>
-                </div>
-            </div>
-            <!-- Project 3 -->
-            <div class="project-card">
-                <div class="project-img">Project Three</div>
-                <div class="project-info">
-                    <h3>Project Title</h3>
-                    <p>A brief description of your awesome project. What technologies did you use? What problem did it solve?</p>
-                    <a href="#" class="project-link" target="_blank">View Project &rarr;</a>
-                </div>
+<!-- SKILLS -->
+<section class="block reveal" id="skills">
+    <div class="sec-head">
+        <span class="sec-idx">02</span><h2 class="sec-title">Stack</h2><div class="sec-line"></div>
+    </div>
+    <div class="skill-cols">
+        <div class="skill-card">
+            <h4>// LANGUAGES &amp; CORE</h4>
+            <div class="chips">
+                <span class="chip">Java</span><span class="chip">Spring Boot</span><span class="chip">Spring Security</span><span class="chip">Hibernate / JPA</span><span class="chip">JUnit</span>
             </div>
         </div>
-    </section>
-
-    <!-- CONTACT SECTION -->
-    <section id="contact">
-        <h2 class="section-title">Get In Touch</h2>
-        <div class="contact-container">
-            <p>I'm always open to discussing new projects, creative ideas, or opportunities to be part of your visions. Drop me an email or find me on social media!</p>
-            <div class="social-links">
-                <a href="#" target="_blank">GitHub</a>
-                <a href="#" target="_blank">LinkedIn</a>
-                <a href="mailto:your.email@example.com">Email</a>
+        <div class="skill-card">
+            <h4>// DISTRIBUTED SYSTEMS</h4>
+            <div class="chips">
+                <span class="chip">Kafka</span><span class="chip">gRPC</span><span class="chip">Resilience4j</span><span class="chip">Saga / Outbox</span><span class="chip">Debezium CDC</span><span class="chip">DDD</span>
             </div>
         </div>
-    </section>
+        <div class="skill-card">
+            <h4>// CLOUD &amp; INFRA</h4>
+            <div class="chips">
+                <span class="chip">AWS EKS</span><span class="chip">Kubernetes</span><span class="chip">KrakenD</span><span class="chip">Helm / Helmfile</span><span class="chip">Docker</span><span class="chip">CloudWatch</span>
+            </div>
+        </div>
+        <div class="skill-card">
+            <h4>// AUTH &amp; SECURITY</h4>
+            <div class="chips">
+                <span class="chip">Keycloak</span><span class="chip">OAuth2 / OIDC</span><span class="chip">PKCE</span><span class="chip">mTLS</span><span class="chip">AWS Cognito</span>
+            </div>
+        </div>
+        <div class="skill-card">
+            <h4>// DATA &amp; CACHE</h4>
+            <div class="chips">
+                <span class="chip">PostgreSQL</span><span class="chip">MySQL / Oracle</span><span class="chip">Redis</span><span class="chip">Infinispan</span>
+            </div>
+        </div>
+        <div class="skill-card">
+            <h4>// OBSERVABILITY</h4>
+            <div class="chips">
+                <span class="chip">Prometheus</span><span class="chip">Grafana</span><span class="chip">Jaeger / Tempo</span><span class="chip">Micrometer</span><span class="chip">JFR / jcmd</span>
+            </div>
+        </div>
+    </div>
+</section>
 
-    <!-- FOOTER -->
-    <footer>
-        <p>&copy; 2026 Your Name. All rights reserved.</p>
-    </footer>
+<!-- WORK -->
+<section class="block reveal" id="work">
+    <div class="sec-head">
+        <span class="sec-idx">03</span><h2 class="sec-title">Selected work</h2><div class="sec-line"></div>
+    </div>
+    <div class="proj-grid">
+        <div class="proj">
+            <div class="proj-tag">MULTI-TENANT PLATFORM</div>
+            <h3>NextGen TruCare</h3>
+            <p>A healthcare platform with true tenant isolation: per-tenant databases, dedicated Keycloak realms, and separate Kubernetes namespaces, running a hybrid pooled/silo model behind a shared gateway.</p>
+            <div class="proj-stack"><span>Spring Boot</span><span>KrakenD</span><span>Keycloak</span><span>EKS</span></div>
+        </div>
+        <div class="proj">
+            <div class="proj-tag">EVENT PIPELINE</div>
+            <h3>OTP &amp; Notification Backbone</h3>
+            <p>An idempotent OTP flow built on the outbox pattern with Debezium CDC — the identity service owns generation, notification owns delivery, and the claim-check pattern keeps secrets off the wire.</p>
+            <div class="proj-stack"><span>Kafka</span><span>Debezium</span><span>Redis</span><span>DDD</span></div>
+        </div>
+        <div class="proj">
+            <div class="proj-tag">GATEWAY &amp; AUTH</div>
+            <h3>Centralized Auth at the Edge</h3>
+            <p>KrakenD validating JWTs against per-realm JWKS endpoints via flexible-config templating, Authorization Code + PKCE for the SPA, and graceful logout through a Redis JTI blacklist.</p>
+            <div class="proj-stack"><span>OAuth2/OIDC</span><span>PKCE</span><span>KrakenD</span><span>Redis</span></div>
+        </div>
+        <div class="proj">
+            <div class="proj-tag">RELIABILITY</div>
+            <h3>Resilience Layer</h3>
+            <p>Circuit breakers, bulkheads, retries with jitter, and timeouts tuned so a slow downstream can't cascade — classified by gRPC status codes, ordered retry-outer / breaker-inner.</p>
+            <div class="proj-stack"><span>Resilience4j</span><span>gRPC</span><span>Spring</span></div>
+        </div>
+        <div class="proj">
+            <div class="proj-tag">OBSERVABILITY</div>
+            <h3>Full-Stack Telemetry</h3>
+            <p>Metrics, traces and logs wired end-to-end with Micrometer, Prometheus, Tempo and Loki, plus per-JVM diagnostics via JFR and jcmd for the problems dashboards can't see.</p>
+            <div class="proj-stack"><span>Prometheus</span><span>Grafana</span><span>Micrometer</span><span>JFR</span></div>
+        </div>
+        <div class="proj">
+            <div class="proj-tag">SCALE</div>
+            <h3>High-Contention Reservations</h3>
+            <p>A flash-sale reservation design using Redis atomic counters as the gate, read-replica separation, and gateway-level rate limiting — keeping only reserve + payment on the synchronous path.</p>
+            <div class="proj-stack"><span>Redis</span><span>PostgreSQL</span><span>KrakenD</span></div>
+        </div>
+    </div>
+</section>
 
+<!-- CONTACT -->
+<section class="block reveal" id="contact">
+    <div class="contact">
+        <h2>Let's build something <span>reliable.</span></h2>
+        <p>Open to senior backend and technical lead roles — remote, relocation within India, or visa-sponsored. If you're working on distributed systems that need to stay up, let's talk.</p>
+        <div class="socials">
+            <a href="https://github.com/kishanjvns" target="_blank" rel="noopener">GitHub ↗</a>
+            <a href="#" target="_blank" rel="noopener">LinkedIn ↗</a>
+            <a href="mailto:your.email@example.com">Email ↗</a>
+        </div>
+    </div>
+</section>
+
+<footer>© 2026 Kishan · built with Java-brain, styled in the dark</footer>
+
+<script>
+    const hdr = document.getElementById('hdr');
+    addEventListener('scroll', () => hdr.classList.toggle('scrolled', scrollY > 20));
+    const io = new IntersectionObserver((es) => es.forEach(e => e.isIntersecting && e.target.classList.add('in')), { threshold: .12 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
 </body>
 </html>
