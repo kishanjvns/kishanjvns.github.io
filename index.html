@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <style>
+        /* --- RESET & VARIABLES --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        :root {
+            --bg-color: #0f0f15;
+            --card-bg: #161622;
+            --accent-color: #ff9f43; /* Warm orange/yellow similar to the image */
+            --text-main: #ffffff;
+            --text-muted: #a0a0b0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        /* --- NAVIGATION --- */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(15, 15, 21, 0.95);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            border-bottom: 1px solid #222;
+        }
+        nav {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 1.2rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-main);
+            text-decoration: none;
+        }
+        .logo span {
+            color: var(--accent-color);
+        }
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 2rem;
+            background: radial-gradient(circle at center, #251b2d 0%, var(--bg-color) 70%);
+        }
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+        .hero h1 span {
+            color: var(--accent-color);
+        }
+        .hero p {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            max-width: 600px;
+        }
+        .cta-btn {
+            background-color: transparent;
+            color: var(--text-main);
+            border: 2px solid var(--text-main);
+            padding: 0.8rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        .cta-btn:hover {
+            background-color: var(--text-main);
+            color: var(--bg-color);
+            transform: translateY(-3px);
+        }
+
+        /* --- SECTION STYLES --- */
+        section {
+            padding: 6rem 2rem 4rem 2rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .section-title {
+            font-size: 2.2rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+        }
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 4px;
+            background-color: var(--accent-color);
+            margin: 10px auto 0 auto;
+            border-radius: 2px;
+        }
+
+        /* --- ABOUT & SKILLS --- */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        @media (max-width: 768px) {
+            .about-content { grid-template-columns: 1fr; gap: 2rem; }
+            .hero h1 { font-size: 2.5rem; }
+            .nav-links { display: none; } /* Simplified for mobile */
+        }
+        .skills-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        .skill-badge {
+            background-color: var(--card-bg);
+            border: 1px solid #333;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* --- PROJECTS --- */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .project-card {
+            background-color: var(--card-bg);
+            border: 1px solid #222;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+        .project-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-color);
+        }
+        .project-img {
+            height: 180px;
+            background: linear-gradient(45deg, #1f1c2c, #928dab);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255,255,255,0.3);
+            font-weight: bold;
+        }
+        .project-info {
+            padding: 1.5rem;
+        }
+        .project-info h3 {
+            margin-bottom: 0.5rem;
+        }
+        .project-info p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+        .project-link {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* --- CONTACT --- */
+        .contact-container {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .contact-container p {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            font-size: 1.2rem;
+        }
+        .social-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .social-links a:hover {
+            color: var(--accent-color);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid #222;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 4rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION -->
+    <header>
+        <nav>
+            <a href="#" class="logo">Hello <span>World!</span></a>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <p>Hi, I'm</p>
+        <h1><span>Your Name Here</span></h1>
+        <p>A passionate developer building clean, responsive, and functional web experiences.</p>
+        <a href="#contact" class="cta-btn">LET'S COLLAB!</a>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section id="about">
+        <h2 class="section-title">About Me</h2>
+        <div class="about-content">
+            <div>
+                <p>Hello! I am a software enthusiast who loves turning complex problems into simple, beautiful, and intuitive designs. My journey in tech started with curiosity, and now I specialize in building solid applications.</p>
+                <br>
+                <p>When I'm not coding, you can find me exploring new tools, learning new frameworks, or working on personal side projects.</p>
+            </div>
+            <div>
+                <h3>My Skills</h3>
+                <div class="skills-grid">
+                    <span class="skill-badge">HTML5</span>
+                    <span class="skill-badge">CSS3</span>
+                    <span class="skill-badge">JavaScript</span>
+                    <span class="skill-badge">Git & GitHub</span>
+                    <span class="skill-badge">Responsive Design</span>
+                    <span class="skill-badge">React (Learning)</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROJECTS SECTION -->
+    <section id="projects">
+        <h2 class="section-title">My Projects</h2>
+        <div class="projects-grid">
+            <!-- Project 1 -->
+            <div class="project-card">
+                <div class="project-img">Project One</div>
+                <div class="project-info">
+                    <h3>Project Title</h3>
+                    <p>A brief description of your awesome project. What technologies did you use? What problem did it solve?</p>
+                    <a href="#" class="project-link" target="_blank">View Project &rarr;</a>
+                </div>
+            </div>
+            <!-- Project 2 -->
+            <div class="project-card">
+                <div class="project-img">Project Two</div>
+                <div class="project-info">
+                    <h3>Project Title</h3>
+                    <p>A brief description of your awesome project. What technologies did you use? What problem did it solve?</p>
+                    <a href="#" class="project-link" target="_blank">View Project &rarr;</a>
+                </div>
+            </div>
+            <!-- Project 3 -->
+            <div class="project-card">
+                <div class="project-img">Project Three</div>
+                <div class="project-info">
+                    <h3>Project Title</h3>
+                    <p>A brief description of your awesome project. What technologies did you use? What problem did it solve?</p>
+                    <a href="#" class="project-link" target="_blank">View Project &rarr;</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section id="contact">
+        <h2 class="section-title">Get In Touch</h2>
+        <div class="contact-container">
+            <p>I'm always open to discussing new projects, creative ideas, or opportunities to be part of your visions. Drop me an email or find me on social media!</p>
+            <div class="social-links">
+                <a href="#" target="_blank">GitHub</a>
+                <a href="#" target="_blank">LinkedIn</a>
+                <a href="mailto:your.email@example.com">Email</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2026 Your Name. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
